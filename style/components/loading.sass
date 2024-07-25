@@ -1,0 +1,36 @@
+.loader
+  position: fixed
+  width: 250px
+  height: 250px
+  left: 50%
+  top: 50%
+  margin-left: -125px
+  margin-top: -125px
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 22px
+
+  &:before
+    content: ''
+    border-radius: 50%
+    position: absolute
+    inset: 0
+    box-shadow: 0 0 30px 2px rgba(0, 0, 0, 0.3) inset
+
+  &:after
+    content: ''
+    border-radius: 50%
+    position: absolute
+    inset: 0
+    inset: 0
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.3) inset
+    box-shadow: 0 3px 0 #FF3D00 inset
+    animation: rotate 2s linear infinite
+
+@keyframes rotate
+  0%
+    transform: rotate(0)
+
+  100%
+    transform: rotate(360deg)
