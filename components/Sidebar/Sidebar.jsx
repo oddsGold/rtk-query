@@ -142,15 +142,6 @@ const Sidebar = ({user, handleLogout, isLoading}) => {
                                 ))}
                             </>
                         )}
-
-                        <MenuItem
-                            style={{ color: colors.grey[100] }}
-                            onClick={handleLogout}
-                            disabled={isLoading}
-                            icon={<LogoutIcon />}
-                        >
-                            <Typography>Logout</Typography>
-                        </MenuItem>
                     </Box>
                 </Menu>
             </ProSidebar>

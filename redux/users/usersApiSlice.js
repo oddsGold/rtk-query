@@ -91,6 +91,26 @@ export const usersApiSlice = api.injectEndpoints({
             invalidatesTags: ['roles', 'currentRole'],
             transformResponse: (response, meta, arg) => response.data,
         }),
+        updateEmail: builder.mutation({
+            query:({data}) => {
+                return {
+                    url: 'account/email',
+                    method: 'POST',
+                    body: data,
+                };
+            },
+            invalidatesTags: ['account'],
+        }),
+        updatePassword: builder.mutation({
+            query:({data}) => {
+                return {
+                    url: 'account/password',
+                    method: 'POST',
+                    body: data,
+                };
+            },
+            invalidatesTags: ['account'],
+        })
     })
 });
 
@@ -105,5 +125,7 @@ export const {
     useResourcesQuery,
     useCreateRoleMutation,
     useCurrentRoleQuery,
-    useUpdateRoleMutation
+    useUpdateRoleMutation,
+    useUpdateEmailMutation,
+    useUpdatePasswordMutation,
 } = usersApiSlice;

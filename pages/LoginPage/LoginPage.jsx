@@ -26,7 +26,7 @@ const FormContainer = styled(Box)(({ theme }) => ({
     position: 'relative',
     zIndex: 1,
     backgroundColor: 'rgb(255, 255, 255)',
-    padding: theme.spacing(4),
+    // margin: theme.spacing(4),
     borderRadius: theme.shape.borderRadius,
     boxShadow: theme.shadows[5],
 }));

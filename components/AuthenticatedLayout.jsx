@@ -35,11 +35,10 @@ const AuthenticatedLayout = ({children}) => {
                         <Sidebar
                             isSidebar={isSidebar}
                             user={user}
-                            handleLogout={handleLogout}
                             isLoading={isLoading}
                         />
                         <main className="content">
-                            <Topbar setIsSidebar={setIsSidebar} />
+                            <Topbar setIsSidebar={setIsSidebar}  handleLogout={handleLogout}  user={user} />
                             <Box sx={{ p: 2 }}>
                                 {children}
                             </Box>

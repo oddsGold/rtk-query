@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {Box, CssBaseline} from "@mui/material";
 import {errorHandler} from "../Utils/errorHandler.js";
+import {Loading} from "../LoadingBar/Loading.jsx";
 
 
 const defaultTheme = createTheme();
@@ -45,86 +46,90 @@ export const LoginForm = () => {
     };
 
     return (
-        <section className="login">
-            <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
-                {errMsg}
-            </p>
+        isLoading ? (
+            <Loading />
+            ) : (
+            <section className="login">
+                <p ref={errRef} className={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">
+                    {errMsg}
+                </p>
 
-            <ThemeProvider theme={defaultTheme}>
-                <Container component="main" maxWidth="sm">
-                    <CssBaseline/>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
-                            <LockOutlinedIcon/>
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                    </Box>
-                    <Formik
-                        initialValues={{login: '', password: ''}}
-                        validationSchema={Yup.object({
-                            login: Yup.string().required('Name is required').max(255),
-                            password: Yup.string()
-                                .min(3, 'Password must be at least 3 characters')
-                                .max(255, 'Password must be at most 255 characters')
-                                .required('Password is required'),
-                        })}
-                        onSubmit={handleSubmit}
-                    >
-                        {({isSubmitting, handleChange, handleBlur, values, errors, touched}) => (
-                            <Form autoComplete="off">
-                                <Field
-                                    margin="normal"
-                                    variant="outlined"
-                                    color="secondary"
-                                    sx={{mb: 1}}
-                                    fullWidth
-                                    id="login"
-                                    label="Enter your login"
-                                    name="login"
-                                    autoFocus
-                                    as={TextField}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.login}
-                                    error={Boolean(errors.login && touched.login)}
-                                    helperText={touched.login && errors.login}
-                                />
-                                <Field
-                                    margin="normal"
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    as={TextField}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.password}
-                                    error={Boolean(errors.password && touched.password)}
-                                    helperText={touched.password && errors.password}
-                                />
-                                <Button
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    sx={{mt: 3, mb: 2}}
-                                    disabled={isSubmitting}
-                                >
-                                    Sign In
-                                </Button>
-                            </Form>
-                        )}
-                    </Formik>
-                </Container>
-            </ThemeProvider>
-        </section>
+                <ThemeProvider theme={defaultTheme}>
+                    <Container component="main" maxWidth="sm" sx={{padding: '25px'}}>
+                        <CssBaseline/>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                                <LockOutlinedIcon/>
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                                Sign in
+                            </Typography>
+                        </Box>
+                        <Formik
+                            initialValues={{login: '', password: ''}}
+                            validationSchema={Yup.object({
+                                login: Yup.string().required('Name is required').max(255),
+                                password: Yup.string()
+                                    .min(3, 'Password must be at least 3 characters')
+                                    .max(255, 'Password must be at most 255 characters')
+                                    .required('Password is required'),
+                            })}
+                            onSubmit={handleSubmit}
+                        >
+                            {({isSubmitting, handleChange, handleBlur, values, errors, touched}) => (
+                                <Form autoComplete="off">
+                                    <Field
+                                        margin="normal"
+                                        variant="outlined"
+                                        color="secondary"
+                                        sx={{mb: 1}}
+                                        fullWidth
+                                        id="login"
+                                        label="Enter your login"
+                                        name="login"
+                                        autoFocus
+                                        as={TextField}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.login}
+                                        error={Boolean(errors.login && touched.login)}
+                                        helperText={touched.login && errors.login}
+                                    />
+                                    <Field
+                                        margin="normal"
+                                        fullWidth
+                                        name="password"
+                                        label="Password"
+                                        type="password"
+                                        id="password"
+                                        as={TextField}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.password}
+                                        error={Boolean(errors.password && touched.password)}
+                                        helperText={touched.password && errors.password}
+                                    />
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{mt: 3, mb: 2}}
+                                        disabled={isSubmitting}
+                                    >
+                                        Sign In
+                                    </Button>
+                                </Form>
+                            )}
+                        </Formik>
+                    </Container>
+                </ThemeProvider>
+            </section>
+            )
     );
 };

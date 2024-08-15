@@ -12,6 +12,10 @@ const authSlice = createSlice({
         logOutFromTFA: (state, action) => {
             state.token = "";
             state.tfa = false;
+        },
+        setToken: (state,  { payload }) => {
+            console.log(payload);
+            state.token = payload;
         }
     },
     extraReducers: (builder) => {
@@ -42,5 +46,5 @@ const authSlice = createSlice({
     }
 });
 
-export const { logOutFromTFA } = authSlice.actions;
+export const { logOutFromTFA, setToken } = authSlice.actions;
 export default authSlice.reducer;

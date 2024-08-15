@@ -13,7 +13,6 @@ import {
 import {Form, Field, Formik} from "formik";
 import RequiredStar from "../Generics/RequiredStar.js";
 export default function DefaultForm({current = null, defaultCurrent, handleSubmit, enableReinitialize = true, roles = []}) {
-    console.log(roles)
         return (
         <Formik
             initialValues={current ? current : defaultCurrent}
@@ -84,7 +83,7 @@ export default function DefaultForm({current = null, defaultCurrent, handleSubmi
                             >
                                 {roles ? roles.map((role) => (
                                     <MenuItem key={role.id} value={role.id}>
-                                        {role.name}
+                                        {role.label}
                                     </MenuItem>
                                 )) : []}
                             </Field>

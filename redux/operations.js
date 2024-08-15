@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {ENDPOINTS} from "../components/Utils/apiConstants.js";
+import {logout, refreshToken} from "./auth/authApiSlice.js";
+import {setToken} from "./auth/slice.js";
 
 const getCsrfToken = () => {
     const name = 'XSRF-TOKEN=';
@@ -37,9 +39,40 @@ const baseQuery = fetchBaseQuery({
     }
 });
 
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+    let result = await baseQuery(args, api, extraOptions);
+
+    if (result.error && result.error.status === 401) {
+        const originalRequest = args;
+        try {
+            const refreshResult = await refreshToken();
+
+            if (refreshResult?.data) {
+                const newToken = refreshResult.data.token;
+
+                api.dispatch(setToken(newToken));
+
+                result = await baseQuery({
+                    ...originalRequest,
+                    headers: {
+                        ...originalRequest.headers,
+                        'Authorization': `Bearer ${newToken}`,
+                    },
+                }, api, extraOptions);
+            } else {
+                api.dispatch(logout());
+            }
+        } catch (refreshError) {
+            api.dispatch(logout());
+        }
+    }
+
+    return result;
+};
+
 
 export const api = createApi({
-    baseQuery,
+    baseQuery: baseQueryWithReauth,
     endpoints: builder => ({})
 })
 
