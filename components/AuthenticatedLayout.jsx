@@ -4,7 +4,7 @@ import {Box, CssBaseline} from "@mui/material";
 import {ThemeProvider} from "@mui/material/styles";
 import Sidebar from "./Sidebar/Sidebar.jsx";
 import Topbar from "./Topbar/Topbar.jsx";
-import {useGetAccountQuery, useLogoutMutation, useRefreshTokenQuery} from "../redux/auth/authApiSlice.js";
+import {useGetAccountQuery, useLogoutMutation} from "../redux/auth/authApiSlice.js";
 import {Loading} from "./LoadingBar/Loading.jsx";
 import {errorHandler} from "./Utils/errorHandler.js";
 

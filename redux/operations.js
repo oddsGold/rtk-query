@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {ENDPOINTS} from "../components/Utils/apiConstants.js";
-import {logout, refreshToken} from "./auth/authApiSlice.js";
-import {setToken} from "./auth/slice.js";
+import {logOutFromTFA, setToken} from "./auth/slice.js";
 
 const getCsrfToken = () => {
     const name = 'XSRF-TOKEN=';
@@ -42,28 +41,26 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
-    if (result.error && result.error.status === 401) {
-        const originalRequest = args;
+    if (result?.error?.status === 401) {
         try {
-            const refreshResult = await refreshToken();
+            const refreshResult = await baseQuery({
+                url: '/auth/refresh-tokens',
+                method: 'POST',
+                body: {},
+                headers: {
+                    Accept: 'application/json'
+                }
+            }, api, extraOptions);
 
-            if (refreshResult?.data) {
-                const newToken = refreshResult.data.token;
+            if (refreshResult.data) {
+                api.dispatch(setToken(refreshResult.data['access-token']));
 
-                api.dispatch(setToken(newToken));
-
-                result = await baseQuery({
-                    ...originalRequest,
-                    headers: {
-                        ...originalRequest.headers,
-                        'Authorization': `Bearer ${newToken}`,
-                    },
-                }, api, extraOptions);
+                result = await baseQuery(args, api, extraOptions);
             } else {
-                api.dispatch(logout());
+                api.dispatch(logOutFromTFA());
             }
-        } catch (refreshError) {
-            api.dispatch(logout());
+        } catch (error) {
+            api.dispatch(logOutFromTFA());
         }
     }
 

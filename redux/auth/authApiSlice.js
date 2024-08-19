@@ -1,7 +1,7 @@
 import { api } from "../operations.js";
 export const authApiSlice = api.injectEndpoints({
     endpoints: builder => ({
-        refreshToken: builder.query({
+        refreshToken: builder.mutation({
             query: () => ({
                 url: '/auth/refresh-tokens',
                 method: 'POST',
@@ -56,7 +56,7 @@ export const authApiSlice = api.injectEndpoints({
 
 export const { login, logout, getAccount, loginTFA, refreshToken } = authApiSlice.endpoints;
 export const {
-    useRefreshTokenQuery,
+    useRefreshTokenMutation,
     useLoginMutation,
     useGetAccountQuery,
     useLogoutMutation,

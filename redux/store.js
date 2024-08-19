@@ -24,7 +24,7 @@ import isRejectedErrorMiddleware from "../components/Utils/errorMiddleware.js";
 const authPersistConfig = {
     key: 'auth',
     storage,
-    whitelist: ['tfa'],
+    whitelist: ['token','tfa'],
 };
 
 export const store = configureStore({

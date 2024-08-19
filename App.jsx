@@ -9,21 +9,12 @@ import {useSelector} from "react-redux";
 import {selectTFA, selectToken} from "./redux/auth/selectors.js";
 import PrivateRoutes from "./components/PrivateRoutes.jsx";
 import AuthenticatedLayout from "./components/AuthenticatedLayout.jsx";
-import {useRefreshTokenQuery} from "./redux/auth/authApiSlice.js";
-import {Loading} from "./components/LoadingBar/Loading.jsx";
 
 function App() {
     const tfa = useSelector(selectTFA);
     const token = useSelector(selectToken);
 
-    const { data: refreshTokenData, error: refreshTokenError, isLoading: isRefreshTokenLoading } = useRefreshTokenQuery(undefined, {
-        skip: !!token
-    });
-
     return (
-        isRefreshTokenLoading ? (
-            <Loading />
-            ) : (
             <>
                 <ToastContainer/>
                 <Routes>
@@ -55,7 +46,6 @@ function App() {
                 </Routes>
 
             </>
-            )
     )
 }
 
